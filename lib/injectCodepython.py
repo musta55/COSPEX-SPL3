@@ -20,7 +20,6 @@ whileloopID = []
 # Uniquely identifies a for loop
 forloopID = []
 
-
 # Stores the indentation of the current line being executed, used to uniquely identify a loop
 indentWhile = 0
 indentFor = 0
@@ -63,7 +62,6 @@ def my_tracer(frame, event, arg=None):
     line_no = frame.f_lineno
 
     # Local trace function is not executed for the following functions
-    # Skipping built in functions
     if func_name == 'encode' or func_name[0] == "<":
         return
 
@@ -88,7 +86,7 @@ def my_tracer(frame, event, arg=None):
 
         # This generates the accordian on the webpage
         print('''
-		<button onclick="myFunction('Demo%s')" class="w3-btn w3-block w3-blue w3-left-align" style = "font-size:20px">%s</button>
+		<button onclick="myFunction('Demo%s')" class="w3-btn w3-block w3-green w3-left-align" style = "font-size:20px">%s</button>
     	<div id="Demo%s" class="w3-container w3-hide div_func_button">
 		''' % (tab, call_entry, tab))
 
@@ -103,7 +101,7 @@ def my_tracer(frame, event, arg=None):
         # Displays call_exit on the webpage
         print('''
 		</div>
-		<div class = " w3-blue div_return_text" style = "font-size:20px">%s</div>
+		<div class = " w3-green div_return_text" style = "font-size:20px">%s</div>
 		''' % (call_exit))
 
     # event line means the next line of code is about to be executed

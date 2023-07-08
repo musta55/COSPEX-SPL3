@@ -4,36 +4,19 @@ import copy
 import sys
 import re
 
-# Stores the current local variables
 current_variables = {}
-
-# Uniquely identifies a function
 tab = 0
-
-# Used to determine if a loop is being executed or not
 inWhileLoop = False
 inForLoop = False
-
-# Uniquely identifies a while loop
 whileloopID = []
-
-# Uniquely identifies a for loop
 forloopID = []
-
-# Stores the indentation of the current line being executed, used to uniquely identify a loop
 indentWhile = 0
 indentFor = 0
-
-# Uniquely identifies a slideshow (used to display loops)
 slideShowId = 0
-
-# Stores the complete history of the program stack
 stack_history = []
-
-# Used to determine whether the explanation of the current line of code should be printed or not
 print_details = True
 
-# Stores the name of the file
+
 fileName = ""
 
 
@@ -52,59 +35,39 @@ def my_tracer(frame, event, arg=None):
     global print_details
     global fileName
 
-    # extracts frame code
     code = frame.f_code
-    # extracts file name
     fileName = code.co_filename
-    # extracts calling function name
     func_name = code.co_name
-    # extracts the line number
     line_no = frame.f_lineno
 
-    # Local trace function is not executed for the following functions
+
     if func_name == 'encode' or func_name[0] == "<":
         return
 
-    """
-    Trace functions should have three arguments: frame, event, and arg:
-    Frame is the current stack frame.
-    Event is a string: 'call', 'line', 'return', 'exception' or 'opcode'.
-    Arg depends on the event type.
-    """
-    # event call means a function has been called
     if event == 'call':
-        # Stores the name of the previous function which called the current function.
-        # If no such function exists then it stores empty string
         prev_function = getattr(inspect.stack()[2],"function")
+        call_entry = prev_function + " " + "Call" + "ed " + func_name + " function with arguments"
 
-        # Stores the string which describes the function to be executed and is shown on the accordian(HTML element) in the webpage
-        call_entry = prev_function + " " + "Call" + "ed (function) " + func_name + " with arguments"
-
-        # This loop adds the argument names and values(passed to the function called) to call_entry
+        call_entry += "<br>Test Case: "
         for j, k in frame.f_locals.items():
-            call_entry += "<br>" + "&nbsp;&nbsp;&nbsp;&nbsp;" + str(j) + " &rarr; " + str(k)
+            call_entry +=  "&nbsp;&nbsp;&nbsp;&nbsp;" + str(j) + " &rarr; " + str(k)
 
-        # This generates the accordian on the webpage
         print('''
-		<button onclick="myFunction('Demo%s')" class="w3-btn w3-block w3-green w3-left-align" style = "font-size:20px">%s</button>
+		<button onclick="myFunction('Demo%s')" class="w3-btn w3-block w3-light-blue w3-left-align" style = "font-size:20px">%s</button>
     	<div id="Demo%s" class="w3-container w3-hide div_func_button">
 		''' % (tab, call_entry, tab))
 
         tab += 1
 
-    # event return means the function has returned
     if event == 'return':
 
-        # Stores the string which describes what the function returned
         call_exit = "function " + func_name + " " + event + "ed " + str(arg)
 
-        # Displays call_exit on the webpage
         print('''
 		</div>
-		<div class = " w3-green div_return_text" style = "font-size:20px">%s</div>
+		<div class = " w3-light-blue div_return_text" style = "font-size:20px">%s</div>
 		''' % (call_exit))
 
-    # event line means the next line of code is about to be executed
     if event == 'line':
         # Extracts current line of code
         curr_code = getattr(inspect.stack()[1],"code_context")[0]
@@ -303,22 +266,20 @@ def my_tracer(frame, event, arg=None):
         # Current variables are replaced by the new variables
         current_variables = copy.deepcopy(new_variables)
 
+
     return my_tracer
 
 
 def htmlInit():
     f = open("cospex.html", 'w')
 
-    # std output is set to the webpage so the output of the program can be displayed
     sys.stdout = f
 
-    # Initializes the webpage along with the CSS
-    # NOTE: Quick_sort.py is replaced with the name of the file by my-second-page.js
     print('''
 		<!DOCTYPE html>
 		<html>
     <head>
-    		<title>COSPEX</title>
+    		<title>Program Comprehension Tool (COSPEX)</title>
     		<meta name="viewport" content="width=device-width, initial-scale=1">
     		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src="prism/w3code.js"></script>
@@ -432,10 +393,10 @@ def htmlInit():
             /* Add an italic font style to all quotes */
             q {font-style: italic;}
 
-            /* Add a blue color to the author */
-            .author {color: cornflowerblue;}
+            /* Add a light-blue color to the author */
+            .author {color: red;}
             .tooltip {
-            color: green;
+            color: light-blue;
             position: relative;
             display: inline-block;
             border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
