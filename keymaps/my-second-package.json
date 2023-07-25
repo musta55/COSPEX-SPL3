@@ -1,5 +1,7 @@
-{
-  "atom-workspace": {
-    "ctrl-alt-q": "my-second-package:toggle"
+[
+  {
+      "key": "ctrl+alt+q",
+      "command": "my-second-package:toggle",
+      "when": "editorTextFocus"
   }
-}
+]

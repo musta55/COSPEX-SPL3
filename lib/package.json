@@ -1,0 +1,24 @@
+{
+  "name": "my-second-package",
+  "version": "1.0.0",
+  "description": "A short description of your package",
+  "main": "./lib/my-second-package",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "node-powershell": "^4.0.0",
+    "promise": "^8.1.0"
+  },
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "my-second-package.toggle",
+        "title": "Toggle my-second-package"
+      }
+    ]
+  }
+}
