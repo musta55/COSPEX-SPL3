@@ -22,7 +22,6 @@ forloopID = []
 
 # Stores the indentation of the current line being executed, used to uniquely identify a loop
 indentWhile = 0
-indentFor = 0
 
 # Uniquely identifies a slideshow (used to display loops)
 slideShowId = 0
@@ -35,7 +34,11 @@ print_details = True
 
 # Stores the name of the file
 fileName = ""
-
+def print_executed_code(code):
+    lines = code.split('\n')
+    for line in lines:
+        print(line)
+        print()
 
 # local trace function which returns itself
 def my_tracer(frame, event, arg=None):
@@ -54,12 +57,24 @@ def my_tracer(frame, event, arg=None):
 
     # extracts frame code
     code = frame.f_code
+
     # extracts file name
     fileName = code.co_filename
     # extracts calling function name
     func_name = code.co_name
     # extracts the line number
     line_no = frame.f_lineno
+    # print(code)
+    tracer_function_code = inspect.getsource(code)
+    # Print the entire code executed by the tracer function only once
+    if not hasattr(my_tracer, '_code_printed'):
+        print_executed_code(tracer_function_code)
+        setattr(my_tracer, '_code_printed', True)
+
+
+# Your code
+# ...
+
 
     # Local trace function is not executed for the following functions
     if func_name == 'encode' or func_name[0] == "<":
@@ -71,7 +86,9 @@ def my_tracer(frame, event, arg=None):
     Event is a string: 'call', 'line', 'return', 'exception' or 'opcode'.
     Arg depends on the event type.
     """
+
     # event call means a function has been called
+
     if event == 'call':
         # Stores the name of the previous function which called the current function.
         # If no such function exists then it stores empty string
@@ -132,6 +149,8 @@ def my_tracer(frame, event, arg=None):
                 if print_details:
                     print("<div class = \"div_var_intro\">%s</div>" % (var + " = " + str(new_variables[var]) + " is introduced."),"<br>")
             # Old variable updated
+
+            
             else:
                 # Generates the complete history of how a variable has changed as the program was executed using stack_history
                 if new_variables[var] != current_variables[var]:
@@ -435,7 +454,7 @@ def htmlInit():
             /* Add a blue color to the author */
             .author {color: cornflowerblue;}
             .tooltip {
-            color: green;
+            color: blue;
             position: relative;
             display: inline-block;
             border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
