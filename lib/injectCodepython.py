@@ -4,6 +4,7 @@ import copy
 import sys
 import re
 
+
 # Stores the current local variables
 current_variables = {}
 
@@ -37,8 +38,7 @@ fileName = ""
 def print_executed_code(code):
     lines = code.split('\n')
     for line in lines:
-        print(line)
-        print()
+         print('<div class="code-line">%s</div>' % line)
 
 # local trace function which returns itself
 def my_tracer(frame, event, arg=None):
@@ -150,7 +150,7 @@ def my_tracer(frame, event, arg=None):
                     print("<div class = \"div_var_intro\">%s</div>" % (var + " = " + str(new_variables[var]) + " is introduced."),"<br>")
             # Old variable updated
 
-            
+
             else:
                 # Generates the complete history of how a variable has changed as the program was executed using stack_history
                 if new_variables[var] != current_variables[var]:
@@ -343,6 +343,11 @@ def htmlInit():
         <script src="prism/w3code.js"></script>
     </head>
         <style>
+        .code-line {
+        font-family: monospace;
+        font-size: 14px;
+        margin: 2px 0;
+        }
         body {
             margin-left: 50px;
             background: rgb(245, 255, 245);
