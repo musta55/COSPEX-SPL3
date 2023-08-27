@@ -3,8 +3,6 @@ from sys import settrace
 import copy
 import sys
 import re
-
-
 # Stores the current local variables
 current_variables = {}
 
@@ -68,14 +66,9 @@ def my_tracer(frame, event, arg=None):
     tracer_function_code = inspect.getsource(code)
     # Print the entire code executed by the tracer function only once
     if not hasattr(my_tracer, '_code_printed'):
+        print('The source code is:\n')
         print_executed_code(tracer_function_code)
         setattr(my_tracer, '_code_printed', True)
-
-
-# Your code
-# ...
-
-
     # Local trace function is not executed for the following functions
     if func_name == 'encode' or func_name[0] == "<":
         return
@@ -344,6 +337,8 @@ def htmlInit():
     </head>
         <style>
         .code-line {
+        margin-left: 57px;
+        color:#007BA7;
         font-family: monospace;
         font-size: 14px;
         margin: 2px 0;
